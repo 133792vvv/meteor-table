@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meteor</title>
+  <style>
+    body { font-family: sans-serif; margin: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px; white-space: nowrap; }
+    th { background-color: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #e6f2ff; }
+    input[type="text"] { width: 100%; box-sizing: border-box; }
+    a { color: #0077cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h3>Meteor</h3>
+  <table id="meteorTable">
+    <thead>
+      <tr><th>Имя</th><th>Ссылка</th></tr>
+      <tr><th><input type="text" placeholder="Поиск..." /></th><th><input type="text" placeholder="Поиск..." /></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Пример</td><td><a href="https://example.com" target="_blank">https://example.com</a></td></tr>
+      <tr><td>Тест</td><td><a href="https://yandex.ru" target="_blank">https://yandex.ru</a></td></tr>
+    </tbody>
+  </table>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const table = document.getElementById("meteorTable");
+      const rows = Array.from(table.tBodies[0].rows);
+      const filters = table.tHead.rows[1].querySelectorAll("input");
+
+      function filterTable() {
+        const queries = Array.from(filters).map(input => input.value.toLowerCase().trim());
+        rows.forEach(row => {
+          const cells = Array.from(row.cells);
+          const visible = cells.every((cell, i) => queries[i] === "" || cell.textContent.toLowerCase().includes(queries[i]));
+          row.style.display = visible ? "" : "none";
+        });
+      }
+
+      filters.forEach(input => input.addEventListener("input", filterTable));
+    });
+  </script>
+</body>
+</html>
