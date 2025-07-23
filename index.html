@@ -1,19 +1,22 @@
 
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Meteor Table</title>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<style>
-th, td { text-align: center; }
-tfoot input {
-    width: 100%;
-    box-sizing: border-box;
-}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meteor Table</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 10px; }
+        table.dataTable thead th, table.dataTable tfoot th { text-align: left; }
+        table.dataTable tfoot input { width: 100%; box-sizing: border-box; }
+    </style>
 </head>
 <body>
-<table class="dataframe display" id="myTable">
+<h2>Таблица с фильтрами</h2>
+<table border="1" class="dataframe display" id="myTable">
   <thead>
     <tr style="text-align: right;">
       <th>НомИнв</th>
@@ -121179,30 +121182,25 @@ tfoot input {
     </tr>
   </tbody>
 </table>
-
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-    // Добавим поля ввода под каждым столбцом
-    $('#myTable tfoot th').each(function () {
-        var title = $(this).text();
-        $(this).html('<input type="text" placeholder="Поиск" />');
-    });
-
-    var table = $('#myTable').DataTable({
+    $('#myTable').DataTable({
         paging: false,
-        info: false
-    });
-
-    // Применяем фильтр по каждому столбцу
-    table.columns().every(function () {
-        var that = this;
-        $('input', this.footer()).on('keyup change clear', function () {
-            if (that.search() !== this.value) {
-                that.search(this.value).draw();
-            }
-        });
+        info: false,
+        dom: 't',
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                var footer = $(column.footer());
+                var title = footer.text();
+                footer.html('<input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;" />');
+                $('input', footer).on('keyup change clear', function () {
+                    if (column.search() !== this.value) {
+                        column.search(this.value).draw();
+                    }
+                });
+            });
+        }
     });
 });
 </script>
