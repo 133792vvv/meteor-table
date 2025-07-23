@@ -10,8 +10,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <style>
         body { font-family: Arial, sans-serif; padding: 10px; }
-        table.dataTable thead th, table.dataTable tfoot th { text-align: left; }
-        table.dataTable tfoot input { width: 100%; box-sizing: border-box; }
+        table.dataTable thead input { width: 100%; box-sizing: border-box; }
+        table.dataTable thead th { text-align: left; }
     </style>
 </head>
 <body>
@@ -28,7 +28,7 @@
       <th>Двс</th>
       <th>NameT</th>
     </tr>
-  </thead><tfoot><tr><th>НомИнв</th><th>Ссылка</th><th>Дата</th><th>Имя</th><th>Тел</th><th>Адр</th><th>Двс</th><th>NameT</th></tr></tfoot>
+  </thead>
   <tbody>
     <tr>
       <td>700</td>
@@ -121184,23 +121184,19 @@
 </table>
 <script>
 $(document).ready(function() {
-    $('#myTable').DataTable({
+    var table = $('#myTable').DataTable({
         paging: false,
         info: false,
-        dom: 't',
-        initComplete: function () {
-            this.api().columns().every(function () {
-                var column = this;
-                var footer = $(column.footer());
-                var title = footer.text();
-                footer.html('<input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;" />');
-                $('input', footer).on('keyup change clear', function () {
-                    if (column.search() !== this.value) {
-                        column.search(this.value).draw();
-                    }
-                });
-            });
-        }
+        dom: 't'
+    });
+
+    // Применяем фильтрацию по каждому полю
+    $('#myTable thead tr:eq(1) th').each(function(i) {
+        $('input', this).on('keyup change clear', function () {
+            if (table.column(i).search() !== this.value) {
+                table.column(i).search(this.value).draw();
+            }
+        });
     });
 });
 </script>
