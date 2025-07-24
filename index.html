@@ -10,8 +10,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <style>
         body { font-family: Arial, sans-serif; padding: 10px; }
+        table.dataTable thead th, table.dataTable tfoot th { text-align: left; }
         table.dataTable thead input { width: 100%; box-sizing: border-box; }
-        table.dataTable thead th { text-align: left; }
     </style>
 </head>
 <body>
@@ -28,7 +28,7 @@
       <th>Двс</th>
       <th>NameT</th>
     </tr>
-  </thead>
+  <tr><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th><th><input type="text" placeholder="Поиск" style="width:100%; box-sizing:border-box;"></th></tr></thead>
   <tbody>
     <tr>
       <td>700</td>
@@ -121187,16 +121187,17 @@ $(document).ready(function() {
     var table = $('#myTable').DataTable({
         paging: false,
         info: false,
-        dom: 't'
-    });
-
-    // Применяем фильтрацию по каждому полю
-    $('#myTable thead tr:eq(1) th').each(function(i) {
-        $('input', this).on('keyup change clear', function () {
-            if (table.column(i).search() !== this.value) {
-                table.column(i).search(this.value).draw();
-            }
-        });
+        dom: 't',
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                $('input', column.header()).on('keyup change clear', function () {
+                    if (column.search() !== this.value) {
+                        column.search(this.value).draw();
+                    }
+                });
+            });
+        }
     });
 });
 </script>
