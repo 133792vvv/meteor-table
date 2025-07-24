@@ -10,10 +10,7 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 10px; }
         table.dataTable thead th, table.dataTable tfoot th { text-align: center; }
-        table.dataTable tfoot input {
-            width: 100%;
-            box-sizing: border-box;
-        }
+        table.dataTable tfoot input { width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -121196,10 +121193,13 @@ $(document).ready(function() {
         info: false,
         dom: 't'
     });
+
+    // Добавляем фильтры в tfoot
     $('#myTable tfoot th').each(function () {
-        var title = $(this).text();
         $(this).html('<input type="text" placeholder="Поиск" style="width:100%;" />');
     });
+
+    // Обработка фильтров
     table.columns().every(function () {
         var that = this;
         $('input', this.footer()).on('keyup change clear', function () {
