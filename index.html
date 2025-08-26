@@ -7,8 +7,9 @@
 <title>Meteor Table</title>
 <style>
   body { font-family: Arial, sans-serif; font-size: 14px; padding: 10px; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; overflow: hidden; text-overflow: ellipsis; }
   th input { width: 100%; box-sizing: border-box; }
   tr:hover { background-color: #f2f2f2; }
   a { color: #0645AD; text-decoration: none; }
@@ -17,10 +18,11 @@
 </head>
 <body>
 <h2>Таблица Meteor</h2>
+<div class="table-wrap">
 <table id="meteor-table">
   <thead>
     <tr><th>НомИнв</th><th>Ссылка</th><th>Дата</th><th>Имя</th><th>Тел</th><th>Адр</th><th>Двс</th><th>NameT</th></tr>
-    <tr><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th><th><input type="text" onkeyup="filterTable()" placeholder="Поиск..."></th></tr>
+    <tr><th><input type="text" data-col="НомИнв" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Ссылка" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Дата" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Имя" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Тел" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Адр" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Двс" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="NameT" oninput="filterTable()" placeholder="Поиск..."></th></tr>
   </thead>
   <tbody>
     <tr><td>700</td><td><a href="https://www.dropbox.com/scl/fi/gvgwsjn3tfd1jkemp3so7/700.jpg?rlkey=2lu0eb98r65ijoxulo48ak45r&raw=1" target="_blank">Смотреть</a></td><td>07/26/2019</td><td></td><td></td><td>3934 Buckeye cir,  Fountain Valley 92708</td><td>fridge</td><td>Alex</td></tr>
@@ -12387,24 +12389,63 @@
 
   </tbody>
 </table>
+</div>
 <script>
+function freezeColumnWidths() {
+  const table = document.getElementById("meteor-table");
+  const headerRow = table.tHead && table.tHead.rows[0];
+  if (!headerRow) return;
+  const ths = headerRow.cells;
+
+  const colgroup = document.createElement('colgroup');
+  for (let i = 0; i < ths.length; i++) {
+    const w = ths[i].getBoundingClientRect().width;
+    const col = document.createElement('col');
+    col.style.width = w + 'px';
+    colgroup.appendChild(col);
+  }
+  table.insertBefore(colgroup, table.firstChild);
+}
+
+function normalizePhoneFilter(raw) {
+  let digits = (raw.match(/\d/g) || []).join('');
+  if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
+  if (digits.length > 10) digits = digits.slice(-10);
+  return digits;
+}
+
 function filterTable() {
   const table = document.getElementById("meteor-table");
   const filters = table.querySelectorAll("thead input");
   const rows = table.tBodies[0].rows;
+
   for (let i = 0; i < rows.length; i++) {
     let visible = true;
+
     for (let j = 0; j < filters.length; j++) {
-      const filter = filters[j].value.toLowerCase();
-      const cell = rows[i].cells[j].textContent.toLowerCase();
-      if (!cell.includes(filter)) {
+      const colName = (filters[j].dataset.col || '').trim().toLowerCase();
+      let filterValue = (filters[j].value || '').toLowerCase();
+
+      if (colName === 'тел') {
+        filterValue = normalizePhoneFilter(filterValue);
+      }
+
+      const cellText = rows[i].cells[j].textContent.toLowerCase();
+      const hay = (colName === 'тел')
+        ? (rows[i].cells[j].textContent.match(/\d/g) || []).join('')
+        : cellText;
+
+      if (filterValue && !hay.includes(filterValue)) {
         visible = false;
         break;
       }
     }
+
     rows[i].style.display = visible ? "" : "none";
   }
 }
+
+window.addEventListener('load', freezeColumnWidths);
 </script>
 </body>
 </html>
