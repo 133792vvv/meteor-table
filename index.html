@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,29 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meteor Table</title>
 <style>
-#  body { font-family: Arial, sans-serif; font-size: 14px; padding: 10px; }
-#  .table-wrap { overflow-x: auto; }
-#  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
-#  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; overflow: hidden; text-overflow: ellipsis; }
-#  th input { width: 100%; box-sizing: border-box; }
-#  tr:hover { background-color: #f2f2f2; }
-#  a { color: #0645AD; text-decoration: none; }
-#  a:hover { text-decoration: underline; }
-        body { font-family: Arial, sans-serif; padding: 10px; }
-        table.dataTable thead th, table.dataTable tfoot th { text-align: left; }
-        table.dataTable thead input { width: 100%; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; font-size: 14px; padding: 10px; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; overflow: hidden; text-overflow: ellipsis; }
+th input { width: 100%; box-sizing: border-box; }
+tr:hover { background-color: #f2f2f2; }
+a { color: #0645AD; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table.dataTable thead th, table.dataTable tfoot th { text-align: left; }
+table.dataTable thead input { width: 100%; box-sizing: border-box; }
 </style>
 </head>
 <body>
 <h2>Таблица Meteor</h2>
 <div class="table-wrap">
 <table id="meteor-table">
-  <thead>
-    <tr><th>НомИнв</th><th>Ссылка</th><th>Дата</th><th>Имя</th><th>Тел</th><th>Адр</th><th>Двс</th><th>NameT</th></tr>
-    <tr><th><input type="text" data-col="НомИнв" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Ссылка" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Дата" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Имя" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Тел" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Адр" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Двс" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="NameT" oninput="filterTable()" placeholder="Поиск..."></th></tr>
-  </thead>
-  <tbody>
-    <tr><td>700</td><td><a href="https://www.dropbox.com/scl/fi/gvgwsjn3tfd1jkemp3so7/700.jpg?rlkey=2lu0eb98r65ijoxulo48ak45r&raw=1" target="_blank">Смотреть</a></td><td>07/26/2019</td><td></td><td></td><td>3934 Buckeye cir,  Fountain Valley 92708</td><td>fridge</td><td>Alex</td></tr>
+<thead>
+<tr><th>НомИнв</th><th>Ссылка</th><th>Дата</th><th>Имя</th><th>Тел</th><th>Адр</th><th>Двс</th><th>NameT</th></tr>
+<tr><th><input type="text" data-col="НомИнв" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Ссылка" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Дата" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Имя" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Тел" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Адр" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="Двс" oninput="filterTable()" placeholder="Поиск..."></th><th><input type="text" data-col="NameT" oninput="filterTable()" placeholder="Поиск..."></th></tr>
+</thead>
+<tbody>
+<tr><td>700</td><td><a href="https://www.dropbox.com/scl/fi/gvgwsjn3tfd1jkemp3so7/700.jpg?rlkey=2lu0eb98r65ijoxulo48ak45r&raw=1" target="_blank">Смотреть</a></td><td>07/26/2019</td><td></td><td></td><td>3934 Buckeye cir,  Fountain Valley 92708</td><td>fridge</td><td>Alex</td></tr>
 <tr><td>778</td><td><a href="https://www.dropbox.com/scl/fi/ckn4rzjnym7jhf48mvelz/778.jpg?rlkey=5z4k63n185p976yit581kw7ec&raw=1" target="_blank">Смотреть</a></td><td>10/23/2019</td><td>Michael</td><td>9095256829</td><td>22761 Lakeway dr #418, Diamond Bar 91765</td><td>washer</td><td>Alex</td></tr>
 <tr><td>779</td><td><a href="https://www.dropbox.com/scl/fi/zxjwz7jtk1qn4o1d8g62a/779.jpg?rlkey=azkiecs33gbdzdbrzqmz3k9k3&raw=1" target="_blank">Смотреть</a></td><td>10/23/2019</td><td>Ashley</td><td>9095090771</td><td>1155 W Yale st, Ontario 91762</td><td>dw</td><td>Alex</td></tr>
 <tr><td>780</td><td><a href="https://www.dropbox.com/scl/fi/numyq4ab72dwlznl2c6kp/780.jpg?rlkey=xcguvyxjflz6zlokgz4ppdma9&raw=1" target="_blank">Смотреть</a></td><td>10/26/2019</td><td>Dennece Mercado</td><td>6263408844</td><td>14664 Marist ln, Chino 91710</td><td>dryer</td><td>Alex</td></tr>
@@ -12508,7 +12506,7 @@
 <tr><td>14898</td><td><a href="https://www.dropbox.com/scl/fi/2g6asf2514e1d83sls4ev/14898.jpg?rlkey=133q4qcmc3w3r7ia9xuvlb2cv&raw=1" target="_blank">Смотреть</a></td><td>08/04/2025</td><td>Danielle Stranc</td><td>8184454372</td><td>27832 St Bernard Lane, Lake Arrowhead 92352</td><td>Range</td><td>Igor</td></tr>
 <tr><td>14899</td><td><a href="https://www.dropbox.com/scl/fi/j2xbrnxy2at8tnpjhpkpr/14899.jpg?rlkey=74a7t7aqymtjn8fr79lo89acg&raw=1" target="_blank">Смотреть</a></td><td>08/08/2025</td><td>Donna Diloreto</td><td>4083915805</td><td>464 Emerald Way, Lake Arrowhead 92352</td><td>Fridge</td><td>Igor</td></tr>
 
-  </tbody>
+</tbody>
 </table>
 </div>
 <script>
@@ -12517,7 +12515,6 @@ function freezeColumnWidths() {
   const headerRow = table.tHead && table.tHead.rows[0];
   if (!headerRow) return;
   const ths = headerRow.cells;
-
   const colgroup = document.createElement('colgroup');
   for (let i = 0; i < ths.length; i++) {
     const w = ths[i].getBoundingClientRect().width;
@@ -12527,45 +12524,33 @@ function freezeColumnWidths() {
   }
   table.insertBefore(colgroup, table.firstChild);
 }
-
 function normalizePhoneFilter(raw) {
   let digits = (raw.match(/\d/g) || []).join('');
   if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
   if (digits.length > 10) digits = digits.slice(-10);
   return digits;
 }
-
 function filterTable() {
   const table = document.getElementById("meteor-table");
   const filters = table.querySelectorAll("thead input");
   const rows = table.tBodies[0].rows;
-
   for (let i = 0; i < rows.length; i++) {
     let visible = true;
-
     for (let j = 0; j < filters.length; j++) {
       const colName = (filters[j].dataset.col || '').trim().toLowerCase();
       let filterValue = (filters[j].value || '').toLowerCase();
-
       if (colName === 'тел') {
         filterValue = normalizePhoneFilter(filterValue);
       }
-
       const cellText = rows[i].cells[j].textContent.toLowerCase();
-      const hay = (colName === 'тел')
-        ? (rows[i].cells[j].textContent.match(/\d/g) || []).join('')
-        : cellText;
-
+      const hay = (colName === 'тел') ? (rows[i].cells[j].textContent.match(/\d/g) || []).join('') : cellText;
       if (filterValue && !hay.includes(filterValue)) {
-        visible = false;
-        break;
+        visible = false; break;
       }
     }
-
     rows[i].style.display = visible ? "" : "none";
   }
 }
-
 window.addEventListener('load', freezeColumnWidths);
 </script>
 </body>
